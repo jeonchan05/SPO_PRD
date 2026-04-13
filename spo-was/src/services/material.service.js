@@ -14,7 +14,23 @@ const { parseJsonFromText } = require("../pipeline/models/schema");
 const { createUserNotification } = require("./notification.service");
 
 const execFileAsync = promisify(execFile);
-const OCR_CONCURRENCY = Math.max(1, Number.parseInt(String(process.env.OCR_CONCURRENCY || ""), 10) || 2);
+const resolveConcurrency = (...candidates) => {
+  for (const candidate of candidates) {
+    const parsed = Number.parseInt(String(candidate || ""), 10);
+    if (Number.isFinite(parsed) && parsed > 0) return parsed;
+  }
+  return 0;
+};
+const DEFAULT_OCR_CONCURRENCY = Math.max(2, Math.min(6, os.cpus()?.length || 4));
+const OCR_CONCURRENCY = Math.max(
+  1,
+  resolveConcurrency(
+    process.env.MATERIAL_LEGACY_OCR_CONCURRENCY,
+    process.env.MATERIAL_PIPELINE_PAGE_CONCURRENCY,
+    process.env.OCR_CONCURRENCY,
+    DEFAULT_OCR_CONCURRENCY,
+  ),
+);
 
 const MATERIAL_UPLOAD_DIR = path.resolve(
   process.env.MATERIAL_UPLOAD_DIR || path.join(process.cwd(), "uploads", "materials"),
@@ -638,15 +654,19 @@ const extractPptxText = async (filePath, options = {}) => {
   const totalWork = Math.max(1, slidePaths.length + mediaPaths.length);
   let completedWork = 0;
   const pages = [];
-  for (const slidePath of slidePaths) {
-    const slideNo = Number(slidePath.match(/slide(\d+)\.xml/)?.[1] || pages.length + 1);
-    const xml = await runCommand("unzip", ["-p", filePath, slidePath], { timeout: 30000 });
-    const rawText = stripXml(xml);
-    if (rawText) {
-      pages.push({ pageNo: slideNo, rawText, ocrText: null });
-    }
-    completedWork += 1;
-    if (onProgress) {
+  const slideResults = await mapWithConcurrency(
+    slidePaths,
+    OCR_CONCURRENCY,
+    async (slidePath, index) => {
+      const slideNo = Number(slidePath.match(/slide(\d+)\.xml/)?.[1] || index + 1);
+      const xml = await runCommand("unzip", ["-p", filePath, slidePath], { timeout: 30000 });
+      const rawText = stripXml(xml);
+      if (!rawText) return null;
+      return { pageNo: slideNo, rawText, ocrText: null };
+    },
+    () => {
+      completedWork += 1;
+      if (!onProgress) return;
       const progressPercent = Math.max(20, Math.min(65, 20 + Math.floor((completedWork / totalWork) * 45)));
       onProgress({
         progressPercent,
@@ -655,8 +675,12 @@ const extractPptxText = async (filePath, options = {}) => {
         processedPages: completedWork,
         totalPages: totalWork,
       });
-    }
-  }
+    },
+  );
+  slideResults
+    .filter(Boolean)
+    .sort((a, b) => a.pageNo - b.pageNo)
+    .forEach((page) => pages.push(page));
 
   const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "spo-pptx-media-"));
   try {
@@ -689,9 +713,11 @@ const extractPptxText = async (filePath, options = {}) => {
       });
     });
 
+    let nextPageNo = pages.reduce((max, page) => Math.max(max, Number(page?.pageNo || 0)), 0) + 1;
     mediaOcrResults.forEach((ocrText) => {
       if (String(ocrText || "").trim()) {
-        pages.push({ pageNo: pages.length + 1, rawText: null, ocrText });
+        pages.push({ pageNo: nextPageNo, rawText: null, ocrText });
+        nextPageNo += 1;
       }
     });
   } finally {
@@ -1762,7 +1788,12 @@ const processMaterialWithOcrPipeline = async (material, options = {}) => {
   const pipelineOutputDir = buildMaterialPipelineOutputDir(material.id);
   const pageConcurrency = Math.max(
     1,
-    Number.parseInt(String(process.env.MATERIAL_PIPELINE_PAGE_CONCURRENCY || ""), 10) || 4,
+    resolveConcurrency(
+      process.env.MATERIAL_PIPELINE_PAGE_CONCURRENCY,
+      process.env.MATERIAL_LEGACY_OCR_CONCURRENCY,
+      process.env.OCR_CONCURRENCY,
+      OCR_CONCURRENCY,
+    ),
   );
   const pipelineDpi = Math.max(120, Number.parseInt(String(process.env.MATERIAL_PIPELINE_DPI || ""), 10) || 180);
   const ocrLanguage = String(process.env.MATERIAL_PIPELINE_OCR_LANGUAGE || "kor+eng").trim() || "kor+eng";

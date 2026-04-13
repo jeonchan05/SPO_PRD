@@ -50,7 +50,9 @@ PDF 발표자료를 입력받아 다음 산출물을 생성합니다.
 - `GEMMA_TOPIC_TIMEOUT_MS`: 주제 생성 단계 타임아웃(ms, 기본 90000)
 - `GEMMA_FEEDBACK_TIMEOUT_MS`: 피드백 단계 타임아웃(ms, 기본 90000)
 - `MODEL_PAGE_TIMEOUT_MS`: 페이지 Vision 분석 타임아웃(ms, 기본 45000)
-- `MATERIAL_PIPELINE_PAGE_CONCURRENCY`: 페이지 분석 동시성(기본 1)
+- `MATERIAL_PIPELINE_PAGE_CONCURRENCY`: PDF 페이지 분석 동시성(기본 4)
+- `MATERIAL_LEGACY_OCR_CONCURRENCY`: PDF/PPT(PPTX 포함) 레거시 OCR 동시성(기본 4)
+- `OCR_CONCURRENCY`: 레거시 OCR 동시성 fallback(기본 4)
 - `MATERIAL_PIPELINE_VISION_ABORT_THRESHOLD`: Vision timeout 연속 횟수 초과 시 OCR-only 전환(기본 2)
 
 CLI 옵션으로도 동일 값 주입 가능:
