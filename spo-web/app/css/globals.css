@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.bg-ethereal-gradient {
+  background: linear-gradient(135deg, #0051ff 0%, #003dc7 100%);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+.glass-card-primary {
+  background: rgba(0, 61, 199, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 75, 238, 0.15);
+}
+
+.soft-shadow {
+  box-shadow: 0 20px 40px -10px rgba(0, 61, 199, 0.05);
+}
+
+body {
+  background: radial-gradient(circle at top right, #e0f2fe 0%, #f0f4f8 50%, #ffffff 100%);
+  background-attachment: fixed;
+}
+
+html.landing-snap-scroll,
+body.landing-snap-scroll {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+  scroll-padding-top: 110px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.landing-snap-scroll,
+  body.landing-snap-scroll {
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+}

@@ -1,0 +1,383 @@
+        .profile-settings-page {
+          min-height: 100vh;
+          overflow-x: clip;
+          background: #f5f6f8;
+          color: #2c2f31;
+        }
+        .sidebar {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 50;
+          display: flex;
+          height: 100vh;
+          width: 256px;
+          flex-direction: column;
+          gap: 32px;
+          overflow-x: hidden;
+          overflow-y: auto;
+          border-right: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 0 48px 48px 0;
+          background: rgba(255, 255, 255, 0.8);
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
+          box-shadow: 0 25px 50px rgba(59, 130, 246, 0.08);
+          padding: 32px 16px;
+          transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-collapsed {
+          width: 80px;
+          padding-top: 84px;
+        }
+        .sidebar-collapsed .nav-text,
+        .sidebar-collapsed .brand-text,
+        .sidebar-collapsed .profile-info-wrap,
+        .sidebar-collapsed .cta-text {
+          display: none;
+        }
+        .sidebar-collapsed .nav-item {
+          justify-content: center;
+          padding-left: 0;
+          padding-right: 0;
+        }
+        .sidebar-collapsed .academy-subnav {
+          display: none;
+        }
+        .sidebar-collapsed .brand-section {
+          display: none;
+        }
+        .sidebar-collapsed .toggle-btn {
+          top: 40px;
+          right: 50%;
+          transform: translateX(50%);
+        }
+        .sidebar-collapsed .toggle-btn:hover {
+          transform: translateX(50%) scale(1.08);
+        }
+        .sidebar-collapsed .profile-card {
+          padding: 10px 0;
+          justify-content: center;
+          border-radius: 20px;
+        }
+        .sidebar-collapsed .profile-expand-icon {
+          display: none;
+        }
+        .toggle-btn {
+          position: absolute;
+          top: 40px;
+          right: 12px;
+          display: flex;
+          height: 28px;
+          width: 28px;
+          align-items: center;
+          justify-content: center;
+          border: 0;
+          border-radius: 9999px;
+          background: #003dc7;
+          color: #ffffff;
+          box-shadow: 0 10px 20px rgba(0, 61, 199, 0.25);
+          cursor: pointer;
+          transition: transform 0.2s ease;
+        }
+        .toggle-btn:hover {
+          transform: scale(1.1);
+        }
+        .flex-row {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .nowrap {
+          white-space: nowrap;
+        }
+        .brand-icon {
+          display: flex;
+          height: 40px;
+          width: 40px;
+          flex-shrink: 0;
+          align-items: center;
+          justify-content: center;
+          border-radius: 12px;
+          background: #0051ff;
+          color: #ffffff;
+        }
+        .brand-title {
+          margin: 0;
+          font-family: 'Manrope', sans-serif;
+          font-size: 32px;
+          font-weight: 900;
+          line-height: 1;
+          color: #1d4ed8;
+        }
+        .brand-subtitle {
+          margin: 2px 0 0;
+          font-size: 10px;
+          font-weight: 600;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #64748b;
+        }
+        .new-session-btn {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          border: 0;
+          border-radius: 24px;
+          background: #0051ff;
+          color: #ffffff;
+          cursor: pointer;
+          padding: 16px 8px;
+          font-weight: 600;
+          box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+          transition: transform 0.2s ease;
+        }
+        .new-session-btn:hover {
+          transform: scale(1.05);
+        }
+        .nav-list {
+          display: flex;
+          flex: 1;
+          flex-direction: column;
+          gap: 8px;
+          overflow: hidden;
+        }
+        .nav-item {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          border-radius: 12px;
+          color: #475569;
+          padding: 12px 16px;
+          font-family: 'Manrope', sans-serif;
+          font-size: 14px;
+          font-weight: 700;
+          letter-spacing: -0.01em;
+          text-decoration: none;
+          transition: all 0.2s ease;
+        }
+        .nav-item:hover {
+          background: #f1f5f9;
+        }
+        .nav-item-static {
+          cursor: default;
+        }
+        .nav-item-static:hover {
+          background: transparent;
+        }
+        .nav-item-active {
+          background: rgba(59, 130, 246, 0.1);
+          color: #2563eb;
+        }
+        .academy-subnav {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin: -2px 0 4px 18px;
+          padding-left: 14px;
+          border-left: 1px solid rgba(37, 99, 235, 0.18);
+        }
+        .academy-subnav-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          min-width: 0;
+          border-radius: 14px;
+          color: #64748b;
+          padding: 9px 10px;
+          text-decoration: none;
+          transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+        .academy-subnav-item:hover {
+          background: #f1f5f9;
+          color: #2563eb;
+          transform: translateX(2px);
+        }
+        .academy-subnav-dot {
+          height: 7px;
+          width: 7px;
+          flex-shrink: 0;
+          border-radius: 999px;
+          background: currentColor;
+          opacity: 0.7;
+        }
+        .academy-subnav-text {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-size: 12px;
+          font-weight: 900;
+          line-height: 1.25;
+        }
+        .profile-section {
+          position: relative;
+          margin-top: auto;
+        }
+        .profile-card {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          overflow: hidden;
+          border-radius: 24px;
+          background: #f3f4f5;
+          padding: 12px;
+        }
+        .profile-card-user {
+          min-height: 68px;
+        }
+        .profile-card-button {
+          width: 100%;
+          border: 0;
+          text-align: left;
+          cursor: pointer;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .profile-card-button:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 10px 24px rgba(37, 99, 235, 0.16);
+        }
+        .profile-image {
+          height: 52px;
+          width: 52px;
+          flex-shrink: 0;
+          border-radius: 9999px;
+          object-fit: cover;
+        }
+        .profile-info-wrap {
+          min-width: 0;
+          flex: 1;
+        }
+        .profile-name {
+          margin: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-size: 13px;
+          font-weight: 700;
+        }
+        .profile-tier {
+          margin: 2px 0 0;
+          font-size: 11px;
+          color: #64748b;
+          line-height: 1.35;
+        }
+        .profile-expand-icon {
+          margin-left: auto;
+          color: #64748b;
+          font-size: 20px;
+          flex-shrink: 0;
+        }
+        .profile-menu {
+          position: absolute;
+          left: 0;
+          bottom: calc(100% + 12px);
+          z-index: 20;
+          display: flex;
+          min-width: 220px;
+          flex-direction: column;
+          gap: 6px;
+          border: 1px solid rgba(148, 163, 184, 0.26);
+          border-radius: 14px;
+          background: rgba(255, 255, 255, 0.95);
+          box-shadow: 0 16px 38px rgba(15, 23, 42, 0.16);
+          padding: 8px;
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+        }
+        .profile-menu-item {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          gap: 10px;
+          border: 0;
+          border-radius: 10px;
+          background: transparent;
+          color: #0f172a;
+          cursor: pointer;
+          padding: 10px 12px;
+          font-size: 13px;
+          font-weight: 700;
+          text-decoration: none;
+          transition: background 0.2s ease;
+        }
+        .profile-menu-item:hover {
+          background: #f1f5f9;
+        }
+        .profile-menu-item-danger {
+          color: #be123c;
+        }
+        .profile-menu-item-danger:hover {
+          background: #fff1f2;
+        }
+        .profile-menu-item:disabled {
+          cursor: not-allowed;
+          opacity: 0.6;
+        }
+        .profile-menu-icon {
+          font-size: 18px;
+        }
+        .profile-settings-main {
+          min-height: 100vh;
+          margin-left: 256px;
+          width: calc(100% - 256px);
+          max-width: calc(100vw - 256px);
+          overflow-x: clip;
+          transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .profile-settings-main-expanded {
+          margin-left: 80px;
+          width: calc(100% - 80px);
+          max-width: calc(100vw - 80px);
+        }
+        @media (max-width: 900px) {
+          .sidebar {
+            width: 80px;
+          }
+          .sidebar .nav-text,
+          .sidebar .brand-text,
+          .sidebar .profile-info-wrap,
+          .sidebar .cta-text {
+            display: none;
+          }
+          .sidebar .nav-item {
+            justify-content: center;
+            padding-left: 0;
+            padding-right: 0;
+          }
+          .sidebar .brand-section {
+            justify-content: center;
+          }
+          .sidebar .profile-card {
+            padding: 10px 0;
+            justify-content: center;
+            border-radius: 20px;
+          }
+          .sidebar .profile-expand-icon {
+            display: none;
+          }
+          .profile-settings-main,
+          .profile-settings-main-expanded {
+            margin-left: 80px;
+            width: calc(100% - 80px);
+            max-width: calc(100vw - 80px);
+          }
+        }
+        @media (max-width: 720px) {
+          .sidebar {
+            position: static;
+            height: auto;
+            width: 100%;
+            border-radius: 0;
+            padding-top: 32px;
+          }
+          .toggle-btn {
+            display: none;
+          }
+          .profile-settings-main,
+          .profile-settings-main-expanded {
+            margin-left: 0;
+            width: 100%;
+            max-width: 100%;
+          }
+        }

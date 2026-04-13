@@ -1,0 +1,43 @@
+# Dependencies / build outputs
+**/node_modules/
+**/.next/
+**/dist/
+**/build/
+**/coverage/
+**/*.tsbuildinfo
+
+# Environment files (keep only templates)
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Runtime uploads / logs / temp
+uploads/
+spo-was/uploads/
+logs/
+*.log
+*.tmp
+.tmp*
+
+# Local tooling / editor caches
+.gemini/
+.codex/
+.vscode/
+.idea/
+
+# Internal operation docs (exclude from public repo)
+docs/worklog/
+
+# Certificates / keys
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# OS
+.DS_Store
+Thumbs.db

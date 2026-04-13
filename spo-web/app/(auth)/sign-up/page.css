@@ -1,0 +1,17 @@
+        .auth-input {
+          width: 100%;
+          border-radius: 20px;
+          border: 1px solid rgba(148, 163, 184, 0.24);
+          background: #f8fafc;
+          padding: 14px 16px;
+          font-size: 14px;
+          font-weight: 600;
+          color: #0f172a;
+          outline: none;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+        .auth-input:focus {
+          border-color: rgba(37, 99, 235, 0.5);
+          background: #fff;
+          box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+        }
